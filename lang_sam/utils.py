@@ -13,7 +13,7 @@ def load_image(image_path: str):
 
 
 def draw_image(image, masks, boxes, labels, alpha=0.4):
-    image = torch.from_numpy(image).permute(2, 0, 1)
+    image = torch.from_numpy(np.array(image)).permute(2, 0, 1)
     if len(boxes) > 0:
         image = draw_bounding_boxes(image, boxes, colors=['red'] * len(boxes), labels=labels, width=2)
     if len(masks) > 0:
