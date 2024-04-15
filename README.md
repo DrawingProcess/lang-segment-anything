@@ -22,6 +22,21 @@ Language Segment-Anything is an open-source project that combines the power of i
 ### Installation
 
 ```
+conda env create -f environment.yml
+# Activate the new environment:
+conda activate lsa
+
+git clone git@github.com:DrawingProcess/lang-segment-anything.git && cd lang-segment-anything
+pip install torch torchvision
+pip install -e .
+
+pip install git+https://github.com/facebookresearch/segment-anything.git
+
+cd GroundingDINO/
+pip install -e .
+```
+
+```
 pip install torch torchvision
 pip install -U git+https://github.com/luca-medeiros/lang-segment-anything.git
 ```

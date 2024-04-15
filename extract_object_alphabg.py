@@ -12,10 +12,11 @@ from torchvision.transforms.functional import to_pil_image
 import os
 
 base_path = '/data/csj000714/data/nerf_custom/'
-input = 'umbrella_100/'
-output = 'umbrella_100_alphabg/'
+input = 'headset/'
 input_path = base_path + input
-output_path = base_path + output
+
+output_mask = 'headset_mask/'
+output = 'headset_alphabg/'
 
 model = LangSAM()
 text_prompt = 'umbrella'
@@ -26,6 +27,7 @@ for folder in folder_list:
     if os.path.isdir(input_path + folder):
         file_list = os.listdir(input_path + folder)
         img_list.extend([input_path + folder + '/' + file for file in file_list if file.endswith(".png")])
+# img_list.sort()
 print(img_list)
 
 for img in img_list:
@@ -35,7 +37,14 @@ for img in img_list:
 
     # tf_toPILImage = ToPILImage() 
     # masks = to_pil_image(masks)
-    masks = Image.fromarray((255*masks[0]).numpy().astype(np.uint8))
+    if len(boxes) > 0:
+        masks = Image.fromarray((255*masks[0]).numpy().astype(np.uint8))
+    else:
+        print("masks empty(not detected): ", img)
+        masks = Image.new('L', (image_pil.size[0], image_pil.size[1]))
+    output_mask_path = img.replace(input, output_mask)
+    masks.save(output_mask_path)
+
     # print(masks.size)
 
     im_rgba = image_pil.copy()
